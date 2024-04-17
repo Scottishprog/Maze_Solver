@@ -32,15 +32,14 @@ class Cell:
             self._win.draw_line(Line(lower_left_point, lower_right_point))
 
     def center_coord(self):
-        cell_center_x = self._x1 + (self._x2 - self._x1)//2
-        cell_center_y = self._y1 + (self._y2 - self._y1)//2
+        cell_center_x = self._x1 + abs(self._x2 - self._x1)//2
+        cell_center_y = self._y1 + abs(self._y2 - self._y1)//2
         return Point(cell_center_x, cell_center_y)
 
     def draw_move(self, to_cell, undo=False):
         center_line = Line(self.center_coord(), to_cell.center_coord())
-        if not undo:
-            color = "red"
-        else:
+        color = "red"
+        if undo:
             color = "grey"
         self._win.draw_line(center_line, color)
 
