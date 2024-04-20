@@ -24,14 +24,26 @@ class Cell:
         upper_right_point = Point(self._x2, self._y1)
         lower_left_point = Point(self._x1, self._y2)
         lower_right_point = Point(self._x2, self._y2)
+
         if self.has_left_wall:
             self._win.draw_line(Line(upper_left_point, lower_left_point))
+        else:
+            self._win.draw_line(Line(upper_left_point, lower_left_point), "white")
+
         if self.has_right_wall:
             self._win.draw_line(Line(upper_right_point, lower_right_point))
+        else:
+            self._win.draw_line(Line(upper_right_point, lower_right_point), "white")
+
         if self.has_top_wall:
             self._win.draw_line(Line(upper_left_point, upper_right_point))
+        else:
+            self._win.draw_line(Line(upper_left_point, upper_right_point), "white")
+
         if self.has_bottom_wall:
             self._win.draw_line(Line(lower_left_point, lower_right_point))
+        else:
+            self._win.draw_line(Line(lower_left_point, lower_right_point), "white")
 
     def center_coord(self):
         cell_center_x = self._x1 + abs(self._x2 - self._x1)//2
