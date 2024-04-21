@@ -1,9 +1,10 @@
 import time
+import random
 from cell import Cell
 
 
 class Maze:
-    def __init__(self, x1, y1, num_rows, num_cols, cell_size_x, cell_size_y, win=None):
+    def __init__(self, x1, y1, num_rows, num_cols, cell_size_x, cell_size_y, win=None, seed=None):
         self.x1 = x1
         self.y1 = y1
         self.num_rows = num_rows
@@ -12,6 +13,8 @@ class Maze:
         self.cell_size_y = cell_size_y
         self._win = win
         self._create_cell()
+        if seed is not None:
+            random.seed(seed)
 
     def _create_cell(self):
         self._cells = []
@@ -46,3 +49,26 @@ class Maze:
         self._draw_cell(0, 0)
         self._cells[exit_cell_i][exit_cell_j].has_right_wall = False
         self._draw_cell(exit_cell_i, exit_cell_j)
+
+    def _break_walls_r(self, i, j):
+        self._cells[i][j].visited = True
+        while True:
+            dest_list = []
+            # check for cells to move to - watch for out of range errors!
+            if i != 0 and self._cells[i - 1][j].visited == False:
+                dest_list.append([i - 1, j])
+            if i != self.num_cols - 1 and self._cells[i + 1][j].visited == False:
+                dest_list.append([i + 1, j])
+            if j != 0 and self._cells[i][j - 1].visited == False:
+                dest_list.append([i, j - 1])
+            if i != self.num_rows - 1 and self._cells[i][j + 1].visited == False:
+                dest_list.append([i, j + 1])
+
+            # if no destinations, return.
+            if len(dest_list) == 0:
+                return
+            # Pick a random direction
+            dir_index = random.randrange(0, len(dest_list) - 1)
+            # Knock down the walls.
+
+            # Move to the next cell by calling _break_walls_r
