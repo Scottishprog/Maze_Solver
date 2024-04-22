@@ -52,6 +52,9 @@ class Maze:
 
     def _break_walls_r(self, i, j):
         self._cells[i][j].visited = True
+        # if in destination cell, return.
+        if i == self.num_cols - 1 and j == self.num_rows - 1:
+            return
         while True:
             dest_list = []
             # check for cells to move to - watch for out of range errors!
@@ -61,14 +64,39 @@ class Maze:
                 dest_list.append([i + 1, j])
             if j != 0 and self._cells[i][j - 1].visited == False:
                 dest_list.append([i, j - 1])
-            if i != self.num_rows - 1 and self._cells[i][j + 1].visited == False:
+            if j != self.num_rows - 1 and self._cells[i][j + 1].visited == False:
                 dest_list.append([i, j + 1])
 
             # if no destinations, return.
+            print(f"Destination list: {dest_list}")
             if len(dest_list) == 0:
                 return
-            # Pick a random direction
-            dir_index = random.randrange(0, len(dest_list) - 1)
+            
+            # Pick a random direction, if there is more than one option
+            if len(dest_list) == 1:
+                dir_index = 0
+            else:
+                dir_index = random.randrange(0, len(dest_list) - 1)
+            dest_cell = dest_list[dir_index]
+
             # Knock down the walls.
+            dest_i = dest_cell[0]
+            dest_j = dest_cell[1]
+            print(f"Breaking walls to: {dest_cell}")
+            if dest_i > i:
+                self._cells[i][j].has_right_wall = False
+                self._cells[dest_i][dest_j].has_left_wall = False
+            if dest_i < i:
+                self._cells[i][j].has_left_wall = False
+                self._cells[dest_i][dest_j].has_right_wall = False
+            if dest_j > j:
+                self._cells[i][j].has_bottom_wall = False
+                self._cells[dest_i][dest_j].has_top_wall = False
+            if dest_j < j:
+                self._cells[i][j].has_top_wall = False
+                self._cells[dest_i][dest_j].has_bottom_wall = False
+            self._draw_cell(i,j)
+            self._draw_cell(dest_i, dest_j)
 
             # Move to the next cell by calling _break_walls_r
+            self._break_walls_r(dest_i, dest_j)
