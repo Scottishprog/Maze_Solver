@@ -12,11 +12,15 @@ class Maze:
         self.cell_size_x = cell_size_x
         self.cell_size_y = cell_size_y
         self._win = win
-        self._create_cell()
         if seed is not None:
             random.seed(seed)
 
-    def _create_cell(self):
+        self._create_cells()
+        self._break_entrance_and_exit()
+        self._break_walls_r(0, 0)
+
+
+    def _create_cells(self):
         self._cells = []
         for i in range(0, self.num_cols):
             maze_col = []
