@@ -68,15 +68,12 @@ class Maze:
                 dest_list.append([i, j + 1])
 
             # if no destinations, return.
-            print(f"Destination list: {dest_list}")
+            print(f"Destination list: {dest_list}, with length: {len(dest_list)}")
             if len(dest_list) == 0:
                 return
-            
+
             # Pick a random direction, if there is more than one option
-            if len(dest_list) == 1:
-                dir_index = 0
-            else:
-                dir_index = random.randrange(0, len(dest_list) - 1)
+            dir_index = random.randrange(0, len(dest_list))
             dest_cell = dest_list[dir_index]
 
             # Knock down the walls.
