@@ -105,3 +105,22 @@ class Maze:
         for i in range(0, self.num_cols):
             for j in range(0, self.num_rows):
                 self._cells[i][j].visited = False
+
+    def solve(self):
+        return self._solve_r(0, 0)
+
+    def _solve_r(self, i, j):
+        i_max = self.num_cols - 1
+        j_max = self.num_rows - 1
+        current_cell = self._cells[i][j]
+        if i > 0 and current_cell.has_left_wall == False and self._cells[i - 1][j].visited == False:
+            pass
+
+        if i < i_max and current_cell.has_right_wall == False and self._cells[i + 1][j].visited == False:
+            pass
+
+        if j > 0 and current_cell.has_top_wall == False and self._cells[i][j - 1].visited == False:
+            pass
+
+        if j < j_max and current_cell.has_bottom_wall == False and self._cells[i + 1][j].visited == False:
+            pass
