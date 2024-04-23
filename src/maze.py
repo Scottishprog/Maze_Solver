@@ -72,7 +72,6 @@ class Maze:
                 dest_list.append([i, j + 1])
 
             # if no destinations, return.
-            print(f"Destination list: {dest_list}, with length: {len(dest_list)}")
             if len(dest_list) == 0:
                 return
 
@@ -83,7 +82,6 @@ class Maze:
             # Knock down the walls.
             dest_i = dest_cell[0]
             dest_j = dest_cell[1]
-            print(f"Breaking walls to: {dest_cell}")
             if dest_i > i:
                 self._cells[i][j].has_right_wall = False
                 self._cells[dest_i][dest_j].has_left_wall = False
